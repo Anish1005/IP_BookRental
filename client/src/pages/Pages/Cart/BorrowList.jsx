@@ -2,27 +2,27 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const BorrowList = () => {
+const BorrowList = ({ user }) => {
   const [data, setData] = useState([]);
   const [selectedBooks, setSelectedBooks] = useState([]);
   const navigate = useNavigate();
-  console.log(data);
+  console.log("User is "+ user);
 
   const addToCart = async () => {
-    //   const books = selectedBooks;
-    //   const username = user.username;
-    //   const send = { books: books, username: username };
-    //   console.log(send);
-    //   await axios
-    //     .post(`http://localhost:5000/addToCart`, send, {})
-    //     .then((response) => {
-    //       console.log(response);
-    //     });
-    //   setTimeout(() => {
-    //     window.location.href = "/cart";
-    //   }, 500);
+      const books = selectedBooks;
+      const username = user.username;
+      const send = { books: books, username: username };
+      console.log(send);
+      await axios
+        .post(`http://localhost:5000/addToCart`, send, {})
+        .then((response) => {
+          console.log(response);
+        });
+      setTimeout(() => {
+        window.location.href = "/cart";
+      }, 500);
   };
-  // console.log(selectedBooks);
+  console.log(selectedBooks);
 
   const fetchData = async () => {
     // setInterval(async () => {

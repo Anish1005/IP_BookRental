@@ -5,7 +5,8 @@ import "../../Assets/css/cart.css";
 const Cart = ({ user }) => {
   const [data, setData] = useState([null]);
   const [isLoading, setIsLoading] = useState(true); // Add isLoading state
-
+  console.log(user);
+  
   const fetchData = async () => {
     try {
       const response = await axios.get(

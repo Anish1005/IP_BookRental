@@ -60,17 +60,65 @@ exports.searchBooks = async (req, res) => {
 };
 
 
+// exports.addToCart = async (req, res) => {
+//     try {
+//         const { username } = req.body;
+//         const books = req.body.books;
+//         if (!books || !Array.isArray(books) || books.length === 0) {
+//             return res.status(400).json({ msg: "Invalid books array" });
+//         }
+
+//         const user = await userSchema.findOne({ username });
+
+//         if (!user) {
+//             return res.status(400).json({ msg: "User not found" });
+//         }
+
+//         for (let i = 0; i < books.length; i++) {
+//             const ISBN = books[i];
+//             const book = await bookSchema.findOne({ ISBN });
+
+//             if (!book) {
+//                 return res.status(400).json({ msg: `Book with ISBN ${ISBN} not found` });
+//             }
+
+//             if (book.ItemCount > 0) {
+//                 // Decrease item count of the book
+//                 // book.ItemCount -= 1;
+//                 // await book.save();
+
+//                 // Add ISBN to user's cart
+//                 // user.cart.push(ISBN);
+//                 user.cart.push({
+//                     isbn: book.ISBN
+//                 });
+//             } else {
+//                 return res.status(400).json({ msg: `Book with ISBN ${ISBN} is out of stock` });
+//             }
+//         }
+
+//         await user.save();
+
+//         return res.status(200).json({ msg: "Books added to cart successfully" });
+//     } catch (error) {
+//         throw error;
+//     }
+// };
+
 exports.addToCart = async (req, res) => {
     try {
-        const { username } = req.body;
-        const books = req.body.books;
+        const { username, books } = req.body;
+        console.log(`Adding books to cart for user: ${username}, books:`, books);
+
         if (!books || !Array.isArray(books) || books.length === 0) {
+            console.log("Invalid books array provided");
             return res.status(400).json({ msg: "Invalid books array" });
         }
 
         const user = await userSchema.findOne({ username });
 
         if (!user) {
+            console.log("User not found:", username);
             return res.status(400).json({ msg: "User not found" });
         }
 
@@ -79,33 +127,27 @@ exports.addToCart = async (req, res) => {
             const book = await bookSchema.findOne({ ISBN });
 
             if (!book) {
+                console.log(`Book with ISBN ${ISBN} not found`);
                 return res.status(400).json({ msg: `Book with ISBN ${ISBN} not found` });
             }
 
             if (book.ItemCount > 0) {
-                // Decrease item count of the book
-                // book.ItemCount -= 1;
-                // await book.save();
-
-                // Add ISBN to user's cart
-                // user.cart.push(ISBN);
-                user.cart.push({
-                    isbn: book.ISBN
-                });
+                user.cart.push({ isbn: book.ISBN });
+                console.log(`Book with ISBN ${ISBN} added to cart`);
             } else {
+                console.log(`Book with ISBN ${ISBN} is out of stock`);
                 return res.status(400).json({ msg: `Book with ISBN ${ISBN} is out of stock` });
             }
         }
 
         await user.save();
-
+        console.log(`Books added to cart successfully for user: ${username}`);
         return res.status(200).json({ msg: "Books added to cart successfully" });
     } catch (error) {
+        console.error("Error in adding books to cart:", error);
         throw error;
     }
 };
-
-
 
 
 exports.checkout = async (req, res) => {
