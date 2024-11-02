@@ -134,7 +134,7 @@ const Signin = () => {
     <div className="login-top">
       <div className="login-inner-top-left">
         <div className="login-title">bookWise</div>
-        <div className="login-title-below">Loginn To Your Account</div>
+        <div className="login-title-below">Login To Your Account</div>
         <div className="login-signup-call">
           Dont Have Account ? <a href="/signup">SignUp</a>
         </div>

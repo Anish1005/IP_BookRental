@@ -10,6 +10,7 @@ const app = express();
 const dotenv = require("dotenv")
 const routes = require("./api/routes/index")
 const router = require("express").Router();
+const nodemailer = require('nodemailer');
 dotenv.config();
 
 
@@ -56,3 +57,4 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log("Server Is Connected to Port " + PORT);
 })
+
